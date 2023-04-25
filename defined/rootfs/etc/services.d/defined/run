@@ -1,0 +1,12 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: defined
+# Runs dnclient
+# ==============================================================================
+
+s6-svc -O /run/service/defined
+
+bashio::log.info "Starting dnclient..."
+
+# Run DNClient
+exec /usr/bin/dnclient run

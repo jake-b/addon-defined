@@ -1,0 +1,28 @@
+name: Defined.net
+version: dev
+slug: defined
+description: HomeAssistant Addon for defined.net
+url: https://github.com/jake-b/addon-defined
+init: false
+panel_icon: mdi:vpn
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+ports:
+  4242/udp: 4242
+ports_description:
+  4242/udp: "dnclient: This is the port used for encrypted traffic from inside the docker container"
+hassio_api: false
+privileged:
+  - NET_ADMIN
+devices:
+  - /dev/net/tun
+map:
+  - config:rw
+options:
+  enrollment_code: dnclient-enrollement-code-from-defined.net-console
+schema:
+  enrollment_code: str

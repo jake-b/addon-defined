@@ -1,22 +1,17 @@
 # addon-nebula
-Home Assistant addon for slackhq/nebula
+Home Assistant addon for Defined.net dnclient
 
 This is still a heavy work in progress and hasn't really be thoroughly tested.
 
 For the most basic of documentation if you want to try it out:
-- Install the `nebula` folder in your local `/addons` folder
-- Drop your nebula `config.yaml` into `/ssl/nebula/config.yaml`
-- Drop your cert, key and ca cert into `/ssl/nebula/nodes/homeassistant/(host.crt|host.key|ca.crt)` and set those paths in your nebula `config.yaml` accordingly
-- Restart HA, install the local addon, boot it up and see if it works!
-- Let me know if something interesting, exciting or terrible happens
-
-## Handy Tooling
-- There's a bash script included that will generate and sign all the certificates you need for your nodes, as well as handle (very) rudimentary IP management on your overlay network. It reads a `hosts.txt` file and spits out folders with `.crt`,`.key` files and QR codes for easy consumption, without overwriting anything you already had in place.
-
-## Required Config changes:
-- In your client(s) that you want to use to access HA, you'll need to add a `unsafe_route` clause to your nebula config that includes the IPs you want to access on your network using Nebula. (for example: `192.168.1.1/24` for the whole network, or `192.168.1.25/32` for _just_ home assistant)
-- For the certificate you sign to be run by the home-assistant addon, you'll need to grant it that same subnet access, using the `nebula-cert` argument like `-subnets 192.168.1.1/24` 
+- Install the `defined` folder in your local `/addons` folder
+- Install the local addon from the 'addons store'
+- If this is your first time enrolling, then under the 'configuration' tab, set the enrollement key from the defined.net console
+- Start the addon
+- Check the log to make sure everything worked as expected
 
 ## Note:
-- This is largely a ripoff of frenck's wireguard add-on as a starting point then I built out an equivalent behavior for the nebula basics. 
-- Later I'll come back and set it up as a lighthouse, cert signer automation and convert the basic config.yaml into UI configurable stuff in HA
+- This started as a ripoff of mr-ransel's nebula addon, which in itself was largely a ripoff of frenck's wireguard add-on apparently. This was as a starting point then I built out the behavior I wanted.
+- Since the overlay network is "inside the container" this plugin uses the free version of https://github.com/snail007/goproxy to proxy ports 22, 8123, and 22222 to the host.  This differens from mr-ransel which just relied on Nebula's "unsafe routes"
+- After the initial enrollement, the config files will be stored in the proper locations.  Subsquent starts of the addon will not use the enrollement key again.  You can clear it out of the configuration if you desire.
+- The versions of `dnclient` and `goproxy` are hard coded URLs.  You could update them if you want more recent versions. These were the most recent version at the time I did this.

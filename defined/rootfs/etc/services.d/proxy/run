@@ -1,0 +1,12 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Add-on: defined
+# Runs dnclient
+# ==============================================================================
+
+s6-svc -O /run/service/proxy
+
+bashio::log.info "Starting Proxy..."
+
+# Run Proxy
+exec proxy tcp -p ":22,:8123,:22222" -T tcp -P "homeassistant:0"
